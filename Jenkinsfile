@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Скачиваем код из GitHub
-                git branch: 'main', url: 'https://github.com/Evgen-Domoslavskij/New_Repositori.git'
+                git branch: 'master', url: 'https://github.com/Evgen-Domoslavskij/New_Repositori.git'
             }
         }
 
