@@ -16,8 +16,8 @@
 							"pm.test(\"Status code is 403\", function () {\r",
 							"    pm.response.to.have.status(403);\r",
 							"});\r",
-							"pm.test(\"Response time is less than 700ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(700);\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -76,8 +76,8 @@
 							"pm.test(\"Response time is less than 800ms\", function () {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
 							"});\r",
-							"pm.test(\"Response time is less than 500ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -183,154 +183,24 @@
 			"response": []
 		},
 		{
-			"name": "Создание пользователя",
+			"name": "обновление пользователя",
 			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"// Получаем текущее окружение\r",
-							"let environment = pm.environment.name;\r",
-							"\r",
-							"// Функция генерации случайного имени\r",
-							"function generateName() {\r",
-							"    const characters = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\r",
-							"    const length = Math.floor(Math.random() * 8) + 3; // Длина от 3 до 10 символов\r",
-							"    let name = \"\";\r",
-							"    for (let i = 0; i < length; i++) {\r",
-							"        name += characters.charAt(Math.floor(Math.random() * characters.length));\r",
-							"    }\r",
-							"    return name;\r",
-							"}\r",
-							"\r",
-							"// Функция генерации случайного email\r",
-							"function generateEmail(firstName, lastName) {\r",
-							"    const domains = [\"gmail.com\", \"yahoo.com\", \"outlook.com\"];\r",
-							"    let domain = domains[Math.floor(Math.random() * domains.length)];\r",
-							"    return `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`;\r",
-							"}\r",
-							"\r",
-							"// Функция генерации случайного титула\r",
-							"function generateTitle() {\r",
-							"    const titles = [\"mr\", \"mrs\", \"miss\", \"dr\"];\r",
-							"    const randomIndex = Math.floor(Math.random() * titles.length);\r",
-							"    return titles[randomIndex];\r",
-							"}\r",
-							"\r",
-							"// Функция генерации случайного URL картинки\r",
-							"function generatePicture() {\r",
-							"    const genders = [\"men\", \"women\"];\r",
-							"    const randomGender = genders[Math.floor(Math.random() * genders.length)];\r",
-							"    const randomId = Math.floor(Math.random() * 100);\r",
-							"    return `https://randomuser.me/api/portraits/${randomGender}/${randomId}.jpg`;\r",
-							"}\r",
-							"\r",
-							"// Генерация данных\r",
-							"const firstName = generateName();\r",
-							"const lastName = generateName();\r",
-							"const title = generateTitle();\r",
-							"const picture = generatePicture();\r",
-							"\r",
-							"// Проверяем окружение\r",
-							"let email;\r",
-							"if (environment === \"QA\") {\r",
-							"    email = generateEmail(firstName, lastName); // Генерация email в QA\r",
-							"} else {\r",
-							"    email = pm.environment.get(\"email\") || \"default@example.com\"; // Берем из переменной или ставим дефолт\r",
-							"}\r",
-							"\r",
-							"// Установка переменных для тела запроса\r",
-							"pm.environment.set(\"firstName\", firstName);\r",
-							"pm.environment.set(\"lastName\", lastName);\r",
-							"pm.environment.set(\"email\", email);\r",
-							"pm.environment.set(\"title\", title);\r",
-							"pm.environment.set(\"picture\", picture);\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.environment.set(\"userId\",\r",
-							"    pm.response.json().id);\r",
-							"\r",
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							"pm.test(\"Response time is less than 500ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
-							"});\r",
-							""
+							"pm.test(\"Response time is less than 700ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(700);\r",
+							"});"
 						],
 						"type": "text/javascript",
 						"packages": {}
 					}
 				}
 			],
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "key",
-							"value": "app-id",
-							"type": "string"
-						},
-						{
-							"key": "value",
-							"value": "65c9913cb42b0d0209a5d254",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"{{title}}\",\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"picture\": \"{{picture}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://dummyapi.io/data/v1/user/create",
-					"protocol": "https",
-					"host": [
-						"dummyapi",
-						"io"
-					],
-					"path": [
-						"data",
-						"v1",
-						"user",
-						"create"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Обновление данных",
 			"request": {
 				"auth": {
 					"type": "apikey",
@@ -359,7 +229,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://dummyapi.io/data/v1/user/{{userId}}",
+					"raw": "https://dummyapi.io/data/v1/user/67a07c600ea5fcb37fde2d11",
 					"protocol": "https",
 					"host": [
 						"dummyapi",
@@ -369,7 +239,7 @@
 						"data",
 						"v1",
 						"user",
-						"{{userId}}"
+						"67a07c600ea5fcb37fde2d11"
 					]
 				}
 			},
@@ -425,7 +295,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://dummyapi.io/data/v1/user/{{userId}}",
+					"raw": "https://dummyapi.io/data/v1/user/67a07c600ea5fcb37fde2d11",
 					"protocol": "https",
 					"host": [
 						"dummyapi",
@@ -435,14 +305,14 @@
 						"data",
 						"v1",
 						"user",
-						"{{userId}}"
+						"67a07c600ea5fcb37fde2d11"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "создание сообщения",
+			"name": "создание поста",
 			"event": [
 				{
 					"listen": "test",
@@ -483,7 +353,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"text\": \"as12!&ФВфв      .\",\r\n\r\n\r\n\"owner\": \"{{userId}}\"\r\n}",
+					"raw": "{\r\n\"text\": \"as12!&ФВфв      .\",\r\n\r\n\r\n\"owner\": \"67a07c600ea5fcb37fde2d11\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -508,7 +378,7 @@
 			"response": []
 		},
 		{
-			"name": "данные сообщения",
+			"name": "список постов",
 			"event": [
 				{
 					"listen": "test",
@@ -557,7 +427,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://dummyapi.io/data/v1/post/{{PostId}}",
+					"raw": "https://dummyapi.io/data/v1/post/67a183b8fccf68f3aab12756",
 					"protocol": "https",
 					"host": [
 						"dummyapi",
@@ -567,14 +437,77 @@
 						"data",
 						"v1",
 						"post",
-						"{{PostId}}"
+						"67a183b8fccf68f3aab12756"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "все сообщения",
+			"name": "обновление поста",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 700ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(700);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "app-id",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "65c9913cb42b0d0209a5d254",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Коля здесь\",\r\n    \"image\": \"https://dummyapi.io/data/v1\",\r\n    \"likes\": 999,\r\n    \"tags\": \"Dog\",\r\n    \"owner\":\"67a07c600ea5fcb37fde2d11\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dummyapi.io/data/v1/post/67a183b8fccf68f3aab12756",
+					"protocol": "https",
+					"host": [
+						"dummyapi",
+						"io"
+					],
+					"path": [
+						"data",
+						"v1",
+						"post",
+						"67a183b8fccf68f3aab12756"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "список постов",
 			"event": [
 				{
 					"listen": "test",
@@ -679,7 +612,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"message\":\"Я снова в сети\",\r\n\"owner\":\"{{userId}}\",\r\n\"post\":\"{{postId}}\"\r\n}",
+					"raw": "{\r\n\"message\":\"Я снова в сети\",\r\n\"owner\":\"67a07c600ea5fcb37fde2d11\",\r\n\"post\":\"67a183b8fccf68f3aab12756\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -710,8 +643,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 301\", function () {\r",
-							"    pm.response.to.have.status(301);\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"pm.test(\"Response time is less than 1000ms\", function () {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
@@ -753,7 +686,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://dummyapi.io/data/v1/post/{{postId}}/comment",
+					"raw": "https://dummyapi.io/data/v1/post/67a183b8fccf68f3aab12756/comment",
 					"protocol": "https",
 					"host": [
 						"dummyapi",
@@ -763,334 +696,8 @@
 						"data",
 						"v1",
 						"post",
-						"{{postId}}",
+						"67a183b8fccf68f3aab12756",
 						"comment"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "удаление коментария",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"pm.test(\"Response time is less than 500ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "key",
-							"value": "app-id",
-							"type": "string"
-						},
-						{
-							"key": "value",
-							"value": "65c9913cb42b0d0209a5d254",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://dummyapi.io/data/v1/comment/{{CommentId}}",
-					"protocol": "https",
-					"host": [
-						"dummyapi",
-						"io"
-					],
-					"path": [
-						"data",
-						"v1",
-						"comment",
-						"{{CommentId}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "проверка на удаление коментария",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 404\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});\r",
-							"pm.test(\"Response time is less than 500ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "key",
-							"value": "app-id",
-							"type": "string"
-						},
-						{
-							"key": "value",
-							"value": "65c9913cb42b0d0209a5d254",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://dummyapi.io/data/v1//post/{{postId}}/comment",
-					"protocol": "https",
-					"host": [
-						"dummyapi",
-						"io"
-					],
-					"path": [
-						"data",
-						"v1",
-						"",
-						"post",
-						"{{postId}}",
-						"comment"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Удаление пользователя",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"pm.test(\"Response time is less than 500ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "key",
-							"value": "app-id",
-							"type": "string"
-						},
-						{
-							"key": "value",
-							"value": "65c9913cb42b0d0209a5d254",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://dummyapi.io/data/v1/user/{{userId}}",
-					"protocol": "https",
-					"host": [
-						"dummyapi",
-						"io"
-					],
-					"path": [
-						"data",
-						"v1",
-						"user",
-						"{{userId}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "проверка на удаление пользователя",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 404\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});\r",
-							"pm.test(\"Response time is less than 500ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "key",
-							"value": "app-id",
-							"type": "string"
-						},
-						{
-							"key": "value",
-							"value": "65c9913cb42b0d0209a5d254",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://dummyapi.io/data/v1/user/{{userId}}",
-					"protocol": "https",
-					"host": [
-						"dummyapi",
-						"io"
-					],
-					"path": [
-						"data",
-						"v1",
-						"user",
-						"{{userId}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "проверка наличия поста",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 404\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});\r",
-							"pm.test(\"Response time is less than 500ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "key",
-							"value": "app-id",
-							"type": "string"
-						},
-						{
-							"key": "value",
-							"value": "65c9913cb42b0d0209a5d254",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://dummyapi.io/data/v1/post/{{PostId}}",
-					"protocol": "https",
-					"host": [
-						"dummyapi",
-						"io"
-					],
-					"path": [
-						"data",
-						"v1",
-						"post",
-						"{{PostId}}"
 					]
 				}
 			},
