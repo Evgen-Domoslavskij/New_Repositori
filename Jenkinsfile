@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     // Устанавливаем Newman (если его нет)
-                    sh 'npm install -g newman'
+                    bat 'npm install -g newman'
                 }
             }
         }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     // Запускаем коллекцию Postman через Newman
-                    sh 'newman run my_collection.json -e my_environment.json --reporters cli'
+                    bat 'newman run my_collection.json -e my_environment.json --reporters cli'
                 }
             }
         }
