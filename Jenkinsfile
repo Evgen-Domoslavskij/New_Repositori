@@ -29,7 +29,7 @@ pipeline {
 
         stage('Archive Results') {
             steps {
-                archiveArtifacts artifacts: '**/newman/*.json', fingerprint: true
+                archiveArtifacts artifacts: '**/*.json', allowEmptyArchive: true
             }
         }
     }
